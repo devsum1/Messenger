@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chatmsgSection"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="25dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/senderMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/message_shape_sender"
+        android:padding="10dp"
+        android:text="sender mesaage goes here"
+        android:textColor="@android:color/black" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/receiverMsg"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="end"-->
+    <!--        android:layout_margin="10dp"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:background="@android:color/black"-->
+    <!--        android:text="receiver message goes here"-->
+    <!--        android:textColor="@android:color/white" />-->
+</LinearLayout>

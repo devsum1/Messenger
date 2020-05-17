@@ -1,57 +1,52 @@
-package com.example.chatapp.ui.gallery;
+package com.example.chatapp;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.chatapp.R;
+public class UserProfile extends AppCompatActivity {
 
-public class GalleryFragment extends Fragment {
+   private ImageView editStatus;
+   private ImageView editPhone;
+   private AlertDialog pop;
+   private EditText userChange;
+   private String currChange;
+   private  String performAction;
+   private TextView userStatus;
+   private Button follow;
+   private TextView userContact;
 
-    private GalleryViewModel galleryViewModel;
-    private  TextView textView;
-    private ImageView editStatus;
-    private ImageView editPhone;
-    private AlertDialog pop;
-    private EditText userChange;
-    private String currChange;
-    private  String performAction;
-    private TextView userStatus;
-    private Button follow;
-    private TextView userContact;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_gallery);
 
-
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-
-        editPhone = (ImageView) root.findViewById(R.id.editPhone);
-        editStatus = (ImageView) root.findViewById(R.id.editStatus);
-        follow = (Button) root.findViewById(R.id.followBtn);
+        editPhone = (ImageView) findViewById(R.id.editPhone);
+        editStatus = (ImageView) findViewById(R.id.editStatus);
+        follow = (Button) findViewById(R.id.followBtn);
 
         editPhone.setClickable(true);
         editStatus.setClickable(true);
-        pop = new AlertDialog.Builder(getContext()).create();
-        userChange = new EditText(getContext());
+        Toast.makeText(getApplicationContext(),"icon clicked",Toast.LENGTH_LONG).show();
+
+        pop = new AlertDialog.Builder(this).create();
+        userChange = new EditText(this);
 
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"Button clicked",Toast.LENGTH_LONG).show();
                 changeUserValue("contact");
             }
         });
@@ -81,8 +76,6 @@ public class GalleryFragment extends Fragment {
 
             }
         });
-
-        return root;
     }
 
     public  void changeUserValue(String action){
@@ -98,4 +91,8 @@ public class GalleryFragment extends Fragment {
         pop.setView(userChange);
         pop.show();
     }
+
+
+
+
 }

@@ -17,22 +17,27 @@ import  android.widget.ProgressBar;
 import com.example.chatapp.ui.ui.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.AuthResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     Button Login;
     public EditText email,password,name;
     private ProgressBar progressbar;
     private FirebaseAuth mAuth;
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference dbRef = database.getReference("users");
+    private String userId;
+
     private TextView loginfirebtn;
-    String Email,Password,Name;
+    private String Email,Password,Name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +47,16 @@ public class MainActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.Name);
         email = (EditText) findViewById(R.id.Email);
         password = (EditText) findViewById(R.id.password);
+
+        if(FirebaseAuth.getInstance().getCurrentUser()!= null) {
+            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        }
+
+
         mAuth = FirebaseAuth.getInstance();
         progressbar = findViewById(R.id.progressBar);
         loginfirebtn = (TextView) findViewById(R.id.loginquery);
-
 
 
         Login.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             progressbar.setVisibility(View.GONE);
                             Intent i = new Intent(getApplicationContext(), Home.class);
+                            saveUser(Name,Email);
                             startActivity(i);
+                            finish();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);//Updating with Name
                         }
@@ -99,6 +112,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+  // Save user model into database
+    public void saveUser(String name,String email){
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        User user  = new User(name, email);
+        Log.w("Database check",userId);
+        dbRef.child(userId).setValue(user);
     }
     public void updateUI(final FirebaseUser user){
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -122,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         //Passing context to  Login page
         Intent i = new Intent(getApplicationContext(),LoginActivity.class);
         startActivity(i);
-
     }
 
 }
